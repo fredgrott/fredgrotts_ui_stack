@@ -1,0 +1,163 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  //  per dart-flutter extensions directions at: https://dartcode.org/docs/launch-configuration/
+  //
+  // although one can, NEVER EVER put any define args in these launch configs as it's 
+  // too easy to by mistake include private keys and have them end up in the 
+  // git repo.
+  //
+  // Since build variants require the -t target-main-dart.dart 
+  // they go as separate launch config settings here
+  //
+  // 
+  // Remember deviceID only works for connected running devices or emulators(simulators)
+  // To launch non running emulators(simulators) one uses a task as than it will expose that 
+  // in the command pallete
+  //
+  // For running connected devices its deviceID in the config and 
+  //   "compounds": [{
+  //      "name": "All Devices",
+  //      "configurations": ["Run Dev Android", "Run Dev Iphone"],
+  //     
+  //  }]
+  // The All Devices will show up as a Run Device launch Config Option in the Run menu
+  "version": "0.2.0",
+  "configurations": [
+
+    // for emulators per: https://www.reddit.com/r/FlutterDev/comments/8j8w5t/how_do_i_make_vs_code_automatically_open_an/
+    // stops the rendering white box error when launching emulators
+    {
+      "name": "Flutter-Emulator",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--enable-software-rendering"
+      ]
+    },
+  
+    
+
+
+
+    {
+      "name": "Flutter-Profile",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "lib/main.dart",
+      "env": {
+         "PROFILE_MODE":true
+      },
+      "args": [
+        "--dart-define",
+        "MY_VAR=foo"
+      ],
+      "templateFor": "test",
+      "console": "debugConsole",
+      "flutterMode": "profile",
+      "runTestsOnDevice": false,
+      "codeLens": {
+        "for": [
+          "run-test",
+          "run-test-file",
+          "debug-test",
+          "debug-test-file"
+        ],
+        // states that my unit tests that being with integration_tests prefix will have 
+        // codlens applied
+        "path": "test/integration_tests",
+        "title": "${debugType} (release)"
+      }
+    },
+
+    {
+      "name": "Flutter-Debug",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "lib/main.dart",
+      "env": {
+        "DEBUG_MODE": true
+      },
+      "args": [
+        "--dart-define",
+        "MY_VAR=foo"
+      ],
+      "templateFor": "test",
+      "console": "debugConsole",
+      "flutterMode": "debug",
+      "runTestsOnDevice": false,
+      "codeLens": {
+        "for": [
+          "run-test",
+          "run-test-file",
+          "debug-test",
+          "debug-test-file"
+        ],
+        // states that my unit tests that being with integration_tests prefix will have 
+        // codlens applied
+        "path": "test/integration_tests",
+        "title": "${debugType} (release)"
+      }
+    },
+
+    {
+      "name": "Flutter-Release",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "lib/main.dart",
+      "env": {
+        "RELEASE_MODE": true
+      },
+      "args": [
+        "--dart-define",
+        "MY_VAR=foo"
+      ],
+      "templateFor": "test",
+      "console": "debugConsole",
+      "flutterMode": "release",
+      "runTestsOnDevice": false,
+      "codeLens": {
+        "for": [
+          "run-test",
+          "run-test-file",
+          "debug-test",
+          "debug-test-file"
+        ],
+        // states that my unit tests that being with integration_tests prefix will have 
+        // codlens applied
+        "path": "test/integration_tests",
+        "title": "${debugType} (release)"
+      }
+    },
+
+
+    
+    // per https://pub.dev/packages/golden_toolkit#configure-vs-code
+    {
+      "name": "Flutter-Golden",
+      "type": "dart",
+      "request": "launch",
+      "codeLens": {
+        "for": [
+          "run-test",
+          "run-test-file"
+        ]
+      },
+      "args": [
+        "--update-goldens"
+      ]
+    },
+
+
+
+
+  
+    
+    
+    
+    
+    
+    
+  ]
+}
