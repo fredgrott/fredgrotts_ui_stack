@@ -1,0 +1,163 @@
+# This file configures the analyzer, which statically analyzes Dart code to
+# check for errors, warnings, and lints.
+#
+# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
+# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
+# invoked from the command line by running `flutter analyze`.
+
+# The following line activates a set of recommended lints for Flutter apps,
+# packages, and plugins designed to encourage good coding practices using Passy's lint package
+include: package:lint/analysis_options.yaml
+
+# I use specialize analyzer settings to assist in having a 
+# fine-tuned developer feedback concerning types 
+# beyond the recommendations as I have found that it saves 
+# developer time when migrating to the dart major version 
+# versions.
+
+analyzer: 
+  # required for to ignore auto-generated code as it will always hang using the 
+  # analyzer. DCDG UML generation tool requires this line as it does use the 
+  # analyzer as a dependency.
+  # per https://github.com/dart-lang/sdk/issues/25551
+  # I need to use quotes and regex as  a work around
+  exclude: 
+    # exclude intl files
+    - "**/**.arb"
+    # Generated for Flutter web apps. Since it is auto-generated, errors should be ignored
+    - lib/generated_plugin_registrant.dart
+  # my modified settings for language and strong-mode and errors which are modified from the defaults that the lint package sets.
+  language: 
+    strict-raw-types: true
+    # implicit-casts: false is now default which is why I do not list it in strong mode like underlying lint package does
+  strong-mode: 
+    implicit-dynamic: false
+    implicit-casts: false
+  errors: 
+    missing_required_param: warning
+    missing_return: warning
+    todo: ignore
+    invalid_annotation_target: ignore
+    # Reassignment should be treated as warning (not a hint)
+    parameter_assignments: warning
+  
+    
+  plugins:
+     - dart_code_metrics
+dart_code_metrics:
+   anti-patterns:
+     - long-method
+     - long-parameter-list
+   metrics:
+     cyclomatic-complexity: 20
+     halstead-volume: 150
+     maximum-nesting-level: 5
+     number-of-parameters: 4
+     source-lines-of-code: 50
+     lines-of-code: 100
+     maintainability-index: 50
+     number-of-methods: 10
+     weight-of-class: 0.33
+     technical-debt:
+      threshold: 1
+      todo-cost: 161
+      ignore-cost: 320
+      ignore-for-file-cost: 396
+      as-dynamic-cost: 322
+      deprecated-annotations-cost: 37
+      file-nullsafety-migration-cost: 41
+      unit-type: "USD"
+   metrics-exclude:
+     - "test/**"
+   # per https://dartcodemetrics.dev/docs/getting-started/configuration#configuring-a-rules-entry
+   # and https://dartcodemetrics.dev/docs/rules/overview
+   rules:
+     # common
+     - avoid-collection-methods-with-unrelated-types
+     - avoid-duplicate-exports
+     #- avoid-dynamic
+     - avoid-global-state
+     # - avoid-ignoring-return-values
+      # - avoid-late-keyword
+     - avoid-missing-enum-constant-in-map
+     - avoid-non-ascii-symbols
+     - avoid-non-null-assertion
+     - avoid-apssing-async-when-sync-expectted
+     - avoid-throw-in-catch-block
+     - avoid-top-level-memebrs-in-tests
+     - avoid-unnecessary-type-assertions
+     - avoid-unnecessary-type-casts
+     - avoid-unrelated-type-assertions
+     - avoid-unused-parameters
+     - binary-expresssion-operand-order
+     - double-literal-format
+     - format-comment:
+        ignored-patterns:
+          - ^ cSpell.*  # Ignores all the comments that start with 'cSpell' (for example: '// cSpell:disable-next-line').
+     - member-ordering-extended:
+        order:
+          - build-method
+          - init-state-method
+          - did-change-dependencies-method
+          - did-update-widget-method
+          - dispose-method
+     - newline-before-return
+     - no-boolean-literal-compare
+     - no-empty-block
+     #- no-equal-arguments:
+        #ignored-parameters:
+          #- height
+          #- width
+     - no-equal-then-else
+     #- no-magic-number:
+       # allowed: [3.14, 100, 12]
+     - no-object-declaration
+     - prefer-async-await
+     - prefer-commenting-analyzer-ignores
+     - prefer-correct-identifier-length:
+        exceptions: [ 'a' ]
+        max-identifier-length: 30
+        min-identifier-length: 4
+     - prefer-correct-type-name:
+        excluded: [ 'exampleExclude' ]
+        min-length: 3
+        max-length: 40
+     - prefer-enums-by-name
+     - prefer-first
+     - prefer-immediate-return
+     - prefer-last
+     - prefer-match-file-name
+     - prefer-moving-to-variable:
+        allowed-duplicated-chains: 43
+     - prefer-trailing-comma:
+        break-on: 2
+     - tag-name:
+        var-names: [_kTag]
+        strip-prefix: _
+        strip-postfix: State
+     # flutter
+     - always-remove-listener
+     - avoid-border-all
+     - avoid-returning-widgets:
+         ignored-names:
+          - testFunction
+         ignored-annotations:
+          - allowedAnnotation
+     - avoid-shrink-wrap-in-lists
+     - avoid-unnecessary-setstate
+     - avoid-use-expanded-as-spacer
+     - avoid-wrapping-in-padding
+     - prefer-const-border-radius
+     - prefer-correct-edge-insets-constructor
+     - prefer-extracting-callbacks:
+        ignored-named-arguments:
+          - onPressed
+        allowed-line-count: 3
+     # intl
+     - prefer-intl-name
+     - provide-correct-intl-args    
+
+
+linter:
+  rules:            
+    
